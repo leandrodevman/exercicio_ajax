@@ -8,17 +8,24 @@ document.addEventListener('DOMContentLoaded', function() {
     const linkElement = document.querySelector('#link');
 
     fetch('https://api.github.com/users/leandrodevman')
-        .then(function(res) {
-            return res.json();
-        })
-        .then(function(json) {
-            nameElement.innerText = json.name;
-            usernameElement.innerText = json.login;
-            avatarElement.src = json.avatar_url;
-            followingElement.innerText = json.following;
-            followersElement. innerText = json.followers;
-            repositoriesElement.innerText = json.public_repos;
-            linkElement.href = json.html_url;
-        })
+    .then(function(res) {
+        if (!res.ok) {
+            throw new Error('Erro ao buscar dados do GitHub');
+        }
+        return res.json();
+    })
+    .then(function(json) {
+        nameElement.innerText = json.name;
+        usernameElement.innerText = json.login;
+        avatarElement.src = json.avatar_url;
+        followingElement.innerText = json.following;
+        followersElement.innerText = json.followers;
+        repositoriesElement.innerText = json.public_repos;
+        linkElement.href = json.html_url;
+    })
+    .catch(function(error) {
+        console.error('Erro:', error);
+    });
+
 
 })
